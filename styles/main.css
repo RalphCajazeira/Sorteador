@@ -1,0 +1,39 @@
+main {
+  background-image: url(/assets/images/Shapes.png);
+
+  & .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6875rem;
+    font: 800 1.5rem/130% var(--ff-sora);
+    text-transform: uppercase;
+  }
+
+  & .main-content {
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+
+    & .content {
+      text-transform: uppercase;
+
+      & h2 {
+        margin-top: 5.5625rem;
+        font: 700 1rem/150% var(--ff-roboto);
+
+        background: linear-gradient(90deg, #c7c9cc 0%, #3d3d3d 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      & h1 {
+        margin-top: 0.75rem;
+        font: 800 4.5rem/130% var(--ff-sora);
+        letter-spacing: -0.04rem;
+      }
+    }
+
+    & .content-form {
+    }
+  }
+}
