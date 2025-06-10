@@ -1,0 +1,109 @@
+button {
+  all: unset;
+}
+
+.btn-sortear {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  width: 100%;
+  padding-block: 1rem;
+  margin-top: 2.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  background-color: var(--background-tertiary);
+  color: white;
+  text-transform: uppercase;
+  font: bold 1rem/150% var(--ff-roboto);
+
+  overflow: hidden;
+  z-index: 1;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Borda rainbow girando ao hover */
+.btn-sortear::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    270deg,
+    #77c0af,
+    #d1dc97,
+    #e9a9b3,
+    #d586e0,
+    #91a1fa,
+    #77c0af
+  );
+  background-size: 300% 300%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 0;
+}
+
+.btn-sortear:hover::before {
+  opacity: 1;
+  animation: animate-rainbow 3s linear infinite;
+}
+
+@keyframes animate-rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Ícone SVG animado no hover */
+.btn-sortear .arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-sortear:hover .arrow {
+  animation: arrow-bounce 1s ease-in-out infinite;
+}
+
+@keyframes arrow-bounce {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.4rem);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.btn-sortear .play-again {
+  width: 1.375rem;
+  height: 1.375rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-sortear:hover .play-again {
+  animation: spin-infinite 1s linear infinite;
+}
+
+@keyframes spin-infinite {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}

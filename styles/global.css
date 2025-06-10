@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+html {
+  /* zoom: 0.5; */
+}
+
 :root {
   --content-primary: #ffffff;
   --content-secondary: #c7c9cc;
@@ -29,8 +33,18 @@ body {
 }
 
 .container {
-  max-width: 85.375rem;
+  max-width: 88rem;
+  /* max-width: 85.375rem; */
   margin-inline: auto;
   margin-top: 4.75rem;
   padding: 4.75rem 8.375rem;
+}
+
+input {
+  all: unset;
+  box-sizing: border-box;
+}
+
+.display-none {
+  display: none;
 }

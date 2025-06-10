@@ -15,23 +15,93 @@
     />
   </head>
   <body>
-    <main class="container">
-      <div class="logo">
+    <div class="container">
+      <nav class="logo">
         <img src="/assets/logo.svg" alt="logo" />
         <span>numbers</span>
-      </div class="logo">
+      </nav>
 
       <div class="main-content">
-        <div class="content">
-          <h2 class="gradient-text">Online - gratuito</h2>
+        <div class="left">
+          <h2>Online - gratuito</h2>
           <h1>Sorteador de números</h1>
+          <div>
+            <img src="/assets/icons/person.svg" alt="" />
+            <div>
+              <h3>Como funciona o sorteador de números?</h3>
+              <p>
+                O sorteador utiliza um algoritmo de geração aleatória para criar
+                números dentro do intervalo especificado pelo usuário.
+              </p>
+            </div>
+          </div>
+          <div>
+            <img src="/assets/icons/person.svg" alt="" />
+            <div>
+              <h3>Posso escolher o intervalo dos números?</h3>
+              <p>
+                Sim, você pode definir os valores mínimo e máximo para o
+                intervalo dos números sorteados.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div class="content-form">
-          <h2>Quero sortear:</h2>
-          <p>defina o intervalo e a quantidade de números, clique em "Sortear" e veja os resultados na tela. É rápido e fácil!</p>
+        <div class="right">
+          <div>
+            <h2>Quero sortear:</h2>
+            <p>
+              defina o intervalo e a quantidade de números, clique em "Sortear"e
+              veja os resultados na tela. É rápido e fácil!
+            </p>
+          </div>
+          <form>
+            <div class="input-group">
+              <div>
+                <div class="input-number">
+                  <label for="amount">números</label>
+                  <input type="text" id="amount" placeholder="2" />
+                </div>
+              </div>
+
+              <div>
+                <div class="input-number">
+                  <label for="amount-start">de</label>
+                  <input type="text" id="amount-start" placeholder="1" />
+                </div>
+              </div>
+
+              <div>
+                <div class="input-number">
+                  <label for="amount-end">até</label>
+                  <input type="text" id="amount-end" placeholder="100" />
+                </div>
+              </div>
+            </div>
+
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span class="slider"></span>
+              <span class="switch-label">Não repetir número</span>
+            </label>
+            <button id="sorter" class="btn-sortear">
+              Sortear
+              <img src="assets/icons/right_arrow.svg" alt="" class="arrow" />
+            </button>
+          </form>
+        </div>
+
+        <div class="right result">
+          <h2>Resultado do sorteio</h2>
+          <h3>1º resultado</h3>
+          <button id="sorter-again" class="btn-sortear">
+            Sortear novamente
+            <img src="assets/icons/again.svg" alt="" class="play-again" />
+          </button>
         </div>
       </div>
-    </main>
+    </div>
+
+    <script src="/scripts/scripts.js"></script>
   </body>
 </html>
