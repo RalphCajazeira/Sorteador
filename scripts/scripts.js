@@ -24,7 +24,7 @@ form.addEventListener("submit", (event) => {
   rightResult.style.display = "flex";
 });
 
-// Adiciona um evento de clique ao botão "Sortear novamente"
+// Adiciona um evento de clique ao botão "Sortear novamente" o mesmo formulário
 sorterAgain.addEventListener("click", (event) => {
   event.preventDefault();
   let amountValue = Number(amount.value);
@@ -35,6 +35,13 @@ sorterAgain.addEventListener("click", (event) => {
   const numbers = sortNumbers(amountValue, amountStartValue, amountEndValue);
   createList(numbers);
 });
+
+// Adiciona um evento de clique ao botão "Sortear novamente"
+// sorterAgain.addEventListener("click", (event) => {
+//   event.preventDefault();
+//   right.style.display = "flex";
+//   rightResult.style.display = "none";
+// });
 
 // Função para criar a lista de números
 function createList(numbers) {

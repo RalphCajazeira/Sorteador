@@ -61,6 +61,8 @@ body > div {
     }
 
     & .right {
+      display: flex;
+      flex-direction: column;
       flex: 1;
       margin-top: 2.125rem;
 
@@ -120,10 +122,12 @@ body > div {
 }
 
 #list-result {
-  width: 30rem;
+  max-width: 30rem;
+  max-height: 20rem;
   display: flex;
   flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
   justify-content: flex-start; /* Alinha os itens ao início */
+  overflow-y: auto;
 
   & li {
     display: flex;

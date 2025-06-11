@@ -4,10 +4,6 @@
   box-sizing: border-box;
 }
 
-html {
-  /* zoom: 0.5; */
-}
-
 :root {
   --content-primary: #ffffff;
   --content-secondary: #c7c9cc;
