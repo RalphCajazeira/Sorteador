@@ -8,61 +8,172 @@ const amount = document.getElementById("amount");
 const amountStart = document.getElementById("amount-start");
 const amountEnd = document.getElementById("amount-end");
 const listResult = document.querySelector("#list-result");
+const noRepeat = document.getElementById("no-repeat");
 
-// Adiciona um evento de clique ao botão "Sortear"
+let currentAnimation = null;
+let timeouts = [];
+let floatElements = [];
+
+// Cancelamento de animação ativa
+function cancelCurrentAnimation() {
+  if (currentAnimation) {
+    currentAnimation.cancel();
+    currentAnimation = null;
+  }
+  timeouts.forEach(clearTimeout);
+  timeouts = [];
+  floatElements.forEach((el) => el.remove());
+  floatElements = [];
+}
+
+// Evento botão "Sortear"
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  let amountValue = Number(amount.value);
-  let amountStartValue = Number(amountStart.value);
-  let amountEndValue = Number(amountEnd.value);
-
-  const numbers = sortNumbers(amountValue, amountStartValue, amountEndValue);
+  const numbers = getInputNumbers();
   createList(numbers);
-
-  // Escode o formulário e exibe o resultado
   right.style.display = "none";
   rightResult.style.display = "flex";
 });
 
-// Adiciona um evento de clique ao botão "Sortear novamente" o mesmo formulário
+// Evento botão "Sortear novamente"
 sorterAgain.addEventListener("click", (event) => {
   event.preventDefault();
-  let amountValue = Number(amount.value);
-  let amountStartValue = Number(amountStart.value);
-  let amountEndValue = Number(amountEnd.value);
-
-  // Gera os números aleatórios
-  const numbers = sortNumbers(amountValue, amountStartValue, amountEndValue);
+  const numbers = getInputNumbers();
   createList(numbers);
 });
 
-// Adiciona um evento de clique ao botão "Sortear novamente"
-// sorterAgain.addEventListener("click", (event) => {
-//   event.preventDefault();
-//   right.style.display = "flex";
-//   rightResult.style.display = "none";
-// });
-
-// Função para criar a lista de números
-function createList(numbers) {
-  // Limpa o conteúdo da lista antes de adicionar os novos números
-  listResult.innerHTML = "";
-
-  //Cria o li e aciona os números nele, depois adiciona a li na ul
-  for (const number of numbers) {
-    const li = document.createElement("li");
-    li.textContent = number;
-    listResult.appendChild(li);
-  }
+// Obter valores dos inputs
+function getInputNumbers() {
+  const amountValue = Number(amount.value);
+  const amountStartValue = Number(amountStart.value);
+  const amountEndValue = Number(amountEnd.value);
+  return sortNumbers(
+    amountValue,
+    amountStartValue,
+    amountEndValue,
+    noRepeat.checked
+  );
 }
 
-// Função para gerar os números aleatórios
-function sortNumbers(amountValue, amountStartValue, amountEndValue) {
-  const numbers = Array.from(
-    { length: amountValue },
-    () =>
-      Math.floor(Math.random() * (amountEndValue - amountStartValue + 1)) +
-      amountStartValue
+// Criar lista animada
+function createList(numbers) {
+  cancelCurrentAnimation();
+  listResult.innerHTML = "";
+
+  const wrapper = document.querySelector(".animation-wrapper");
+  const numberEl = wrapper.querySelector(".number-display");
+  const image = wrapper.querySelector(".rotate-img");
+
+  wrapper.style.display = "block";
+  let index = 0;
+  let rotation = 0;
+  let isCancelled = false;
+
+  currentAnimation = {
+    cancel: () => {
+      isCancelled = true;
+      wrapper.style.display = "none";
+      numberEl.textContent = "";
+      numberEl.style.opacity = 0;
+      image.style.transform = "rotate(0deg)";
+    },
+  };
+
+  function animateNext() {
+    if (isCancelled || index >= numbers.length) {
+      wrapper.style.display = "none";
+      return;
+    }
+
+    const currentNumber = numbers[index];
+
+    // Gira imagem imediatamente
+    rotation += 180;
+    image.style.transition = "transform 2s ease-in-out";
+    image.style.transform = `rotate(${rotation}deg)`;
+
+    // Reset número
+    numberEl.textContent = "";
+    numberEl.style.opacity = "0";
+    numberEl.style.fontSize = "4rem";
+    numberEl.style.transform = "translate(-50%, -50%) scale(1)";
+
+    const showNumberTimeout = setTimeout(() => {
+      if (isCancelled) return;
+      numberEl.textContent = currentNumber;
+      numberEl.style.opacity = "1";
+
+      const moveTimeout = setTimeout(() => {
+        if (isCancelled) return;
+
+        const numberRect = numberEl.getBoundingClientRect();
+        const li = document.createElement("li");
+        li.textContent = currentNumber;
+        li.style.opacity = "0";
+        listResult.appendChild(li);
+        const liRect = li.getBoundingClientRect();
+
+        const float = numberEl.cloneNode(true);
+        float.style.position = "fixed";
+        float.style.zIndex = 1000;
+        float.style.margin = 0;
+        float.style.opacity = 1;
+        float.style.fontSize = "4rem";
+        float.style.transform = "translate(-50%, -50%) scale(1)";
+        float.style.left = `${numberRect.left + numberRect.width / 2}px`;
+        float.style.top = `${numberRect.top + numberRect.height / 2}px`;
+        float.style.transition = "all 0.6s ease-in-out, font-size 0.6s ease";
+        document.body.appendChild(float);
+        floatElements.push(float);
+
+        requestAnimationFrame(() => {
+          float.style.left = `${liRect.left + liRect.width / 2}px`;
+          float.style.top = `${liRect.top + liRect.height / 2}px`;
+          float.style.opacity = 0;
+          float.style.transform = "translate(-50%, -50%) scale(0.75)";
+          float.style.fontSize = "3rem";
+        });
+
+        const finalizeTimeout = setTimeout(() => {
+          if (isCancelled) {
+            float.remove();
+            return;
+          }
+          float.remove();
+          li.style.opacity = 1;
+          index++;
+          animateNext();
+        }, 700);
+        timeouts.push(finalizeTimeout);
+      }, 1000);
+      timeouts.push(moveTimeout);
+    }, 1000);
+
+    timeouts.push(showNumberTimeout);
+  }
+
+  // Inicia com giro imediato e depois a animação
+  rotation += 180;
+  image.style.transition = "transform 2s ease-in-out";
+  image.style.transform = `rotate(${rotation}deg)`;
+
+  timeouts.push(
+    setTimeout(() => {
+      if (!isCancelled) animateNext();
+    }, 0)
   );
-  return numbers;
+}
+
+// Gera números aleatórios
+function sortNumbers(amountValue, start, end, noRepeat = false) {
+  const result = [];
+  while (result.length < amountValue) {
+    const number = Math.floor(Math.random() * (end - start + 1)) + start;
+    if (noRepeat && !result.includes(number)) {
+      result.push(number);
+    } else if (!noRepeat) {
+      result.push(number);
+    }
+  }
+  return result;
 }
