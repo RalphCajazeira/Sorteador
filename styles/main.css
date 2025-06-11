@@ -118,3 +118,20 @@ body > div {
     }
   }
 }
+
+#list-result {
+  width: 30rem;
+  display: flex;
+  flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha */
+  justify-content: flex-start; /* Alinha os itens ao início */
+
+  & li {
+    display: flex;
+    width: 5.25rem;
+    height: 6.25rem;
+    font: bold 3rem/150% var(--ff-roboto);
+    align-items: center;
+    justify-content: center;
+    color: var(--content-brand);
+  }
+}
