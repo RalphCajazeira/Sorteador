@@ -76,7 +76,7 @@ function createList(numbers) {
       numberEl.textContent = "";
       numberEl.style.opacity = 0;
       image.style.transform = "rotate(0deg)";
-    },
+    }
   };
 
   function animateNext() {
@@ -87,12 +87,10 @@ function createList(numbers) {
 
     const currentNumber = numbers[index];
 
-    // Gira imagem imediatamente
     rotation += 180;
-    image.style.transition = "transform 2s ease-in-out";
+    image.style.transition = "transform 1s ease-in-out"; // ↓ reduzido de 2s
     image.style.transform = `rotate(${rotation}deg)`;
 
-    // Reset número
     numberEl.textContent = "";
     numberEl.style.opacity = "0";
     numberEl.style.fontSize = "4rem";
@@ -122,7 +120,7 @@ function createList(numbers) {
         float.style.transform = "translate(-50%, -50%) scale(1)";
         float.style.left = `${numberRect.left + numberRect.width / 2}px`;
         float.style.top = `${numberRect.top + numberRect.height / 2}px`;
-        float.style.transition = "all 0.6s ease-in-out, font-size 0.6s ease";
+        float.style.transition = "all 0.3s ease-in-out, font-size 0.3s ease"; // ↓ reduzido de 0.6s
         document.body.appendChild(float);
         floatElements.push(float);
 
@@ -143,26 +141,25 @@ function createList(numbers) {
           li.style.opacity = 1;
           index++;
           animateNext();
-        }, 700);
+        }, 350); // ↓ reduzido de 700
         timeouts.push(finalizeTimeout);
-      }, 1000);
+      }, 500); // ↓ reduzido de 1000
       timeouts.push(moveTimeout);
-    }, 1000);
+    }, 500); // ↓ reduzido de 1000
 
     timeouts.push(showNumberTimeout);
   }
 
-  // Inicia com giro imediato e depois a animação
+  // Início imediato com rotação
   rotation += 180;
-  image.style.transition = "transform 2s ease-in-out";
+  image.style.transition = "transform 1s ease-in-out"; // ↓ reduzido
   image.style.transform = `rotate(${rotation}deg)`;
 
-  timeouts.push(
-    setTimeout(() => {
-      if (!isCancelled) animateNext();
-    }, 0)
-  );
+  timeouts.push(setTimeout(() => {
+    if (!isCancelled) animateNext();
+  }, 0));
 }
+
 
 // Gera números aleatórios
 function sortNumbers(amountValue, start, end, noRepeat = false) {
